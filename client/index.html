@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FeedbackPulse — Análise Inteligente de Feedbacks</title>
+  <meta name="description" content="Transforme feedbacks de clientes em insights estratégicos com análise de sentimentos, identificação de problemas e sugestões de melhoria." />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- ETHEREAL SHADOW BACKGROUND (Para o Hero) -->
+  <div class="ethereal-bg-wrapper">
+    <svg class="ethereal-svg-filter">
+      <defs>
+        <filter id="etherealFilter">
+          <feTurbulence result="undulation" numOctaves="2" baseFrequency="0.001,0.004" seed="0" type="turbulence" />
+          <feColorMatrix id="etherealColorMatrix" in="undulation" type="hueRotate" values="180" />
+          <feColorMatrix in="dist" result="circulation" type="matrix" values="4 0 0 0 1  4 0 0 0 1  4 0 0 0 1  1 0 0 0 0" />
+          <feDisplacementMap in="SourceGraphic" in2="circulation" scale="50" result="dist" />
+          <feDisplacementMap in="dist" in2="undulation" scale="50" result="output" />
+        </filter>
+      </defs>
+    </svg>
+    <div class="ethereal-bg-mask" style="filter: url(#etherealFilter) blur(4px);"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-content">
+      <a href="#" class="logo" id="logoLink">
+        <img src="assets/logo.png" alt="FeedbackPulse Logo" width="32" height="32" style="border-radius: 8px;" />
+        <span class="logo-text">FeedbackPulse</span>
+      </a>
+      <nav class="header-nav">
+        <a href="#" class="nav-link hidden" id="btnNovaAnaliseNav">
+          <i data-lucide="plus-circle" style="width:16px; height:16px; display:inline; vertical-align:text-bottom; margin-right:4px;"></i> Nova Análise
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <div class="hero-content">
+      <h1>Entenda seus clientes<br /><span class="gradient-text">em segundos</span></h1>
+      <p class="hero-subtitle">Descubra padrões, sentimentos e oportunidades de melhoria instantaneamente.</p>
+      
+      <!-- Seção "Como Funciona" integrada ao Hero -->
+      <div class="hero-features" style="opacity: 0.9; margin-top: 2.5rem;">
+        <div class="hero-feature-card">
+          <i data-lucide="copy" class="hero-feature-icon"></i>
+          <span class="hero-feature-text">1. Cole os feedbacks</span>
+        </div>
+        <div class="hero-feature-card" style="border:none; background:transparent; backdrop-filter:none;">
+          <i data-lucide="arrow-right" style="color:var(--text-muted);"></i>
+        </div>
+        <div class="hero-feature-card">
+          <i data-lucide="zap" class="hero-feature-icon"></i>
+          <span class="hero-feature-text">2. Análise automática</span>
+        </div>
+        <div class="hero-feature-card" style="border:none; background:transparent; backdrop-filter:none;">
+          <i data-lucide="arrow-right" style="color:var(--text-muted);"></i>
+        </div>
+        <div class="hero-feature-card">
+          <i data-lucide="pie-chart" class="hero-feature-icon"></i>
+          <span class="hero-feature-text">3. Resultados prontos</span>
+        </div>
+      </div>
+
+      <!-- RAINBOW BUTTON ADAPTADO -->
+      <button class="hero-cta animated-border-btn" id="btnComecar" style="margin-top: 3.5rem;">
+        Começar Análise <i data-lucide="arrow-right" style="display:inline; margin-left:8px; width:18px;"></i>
+      </button>
+      
+      <div style="margin-top: 1rem; color: var(--text-muted); font-size: 0.85rem; display: flex; gap: 1rem; justify-content: center;">
+        <span><i data-lucide="check" style="width:14px; height:14px; display:inline;"></i> Sem cadastro</span>
+        <span><i data-lucide="check" style="width:14px; height:14px; display:inline;"></i> 100% gratuito</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANÁLISE -->
+  <section id="analise" class="analise hidden">
+    <div class="analise-container">
+      <h2><i data-lucide="file-text" style="width:28px; height:28px; display:inline; color:var(--accent-secondary);"></i> <span class="gradient-text">Insira os Feedbacks</span></h2>
+      <p class="analise-descricao">Cole os feedbacks dos seus clientes abaixo, um por linha. Quanto mais feedbacks, mais precisa será a análise.</p>
+      <div class="textarea-wrapper">
+        <textarea id="feedbackInput" placeholder="Cole os feedbacks aqui, um por linha...
+
+Exemplo:
+Ótimo atendimento, recomendo!
+Produto demorou muito para chegar.
+Preço justo e qualidade boa."></textarea>
+        <div class="textarea-footer">
+          <span class="feedback-counter" id="feedbackCounter">0 feedbacks</span>
+          <span class="char-counter" id="charCounter">0 caracteres</span>
+        </div>
+        <div class="loading hidden" id="loadingOverlay">
+          <div class="spinner"></div>
+          <p class="loading-text">Analisando feedbacks<span class="dots">...</span></p>
+        </div>
+      </div>
+      <div class="analise-actions">
+        <!-- Main button with animated border -->
+        <button class="animated-border-btn" id="btnAnalisar" style="padding: 0.8rem 2rem; font-family:'Inter',sans-serif; font-weight:600; font-size:0.95rem; display:flex; align-items:center; gap:0.5rem; border-radius:var(--radius-md);">
+          <i data-lucide="search" style="width:18px; height:18px;"></i> Analisar Feedbacks
+        </button>
+        <button class="btn-secondary" id="btnExemplos">
+          <span class="btn-icon"><i data-lucide="download" style="width:18px; height:18px;"></i> Exemplos</span>
+        </button>
+        <button class="btn-secondary" id="btnImportar">
+          <span class="btn-icon"><i data-lucide="upload" style="width:18px; height:18px;"></i> Importar Arquivo</span>
+        </button>
+        <input type="file" id="arquivoInput" accept=".txt,.csv" style="display:none;" />
+        <button class="btn-secondary" id="btnLimpar">
+          <span class="btn-icon"><i data-lucide="trash-2" style="width:18px; height:18px;"></i> Limpar</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="dashboard hidden">
+    <div class="dashboard-container">
+      <div class="dashboard-header">
+        <h2><i data-lucide="layout-dashboard" style="width:28px; height:28px; display:inline; color:var(--accent-primary);"></i> <span class="gradient-text">Dashboard de Resultados</span></h2>
+      </div>
+
+      <!-- Metrics Grid -->
+      <div class="metricas-grid" id="metricasGrid"></div>
+
+      <!-- Sentiment + Score -->
+      <div class="destaque-grid">
+        <div class="sentimento-card" id="sentimentoCard"></div>
+        <div class="nota-card" id="notaCard"></div>
+      </div>
+
+      <!-- Charts -->
+      <div class="graficos-grid">
+        <div class="grafico-card">
+          <h3><i data-lucide="pie-chart" style="width:18px; height:18px; display:inline-block; vertical-align:text-bottom; margin-right:6px;"></i> Distribuição de Sentimentos</h3>
+          <div class="chart-container"><canvas id="chartPizza"></canvas></div>
+        </div>
+        <div class="grafico-card">
+          <h3><i data-lucide="bar-chart-2" style="width:18px; height:18px; display:inline-block; vertical-align:text-bottom; margin-right:6px;"></i> Palavras Mais Frequentes</h3>
+          <div class="chart-container"><canvas id="chartBarras"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Insights -->
+      <div class="insights-grid">
+        <div class="insight-card">
+          <h3><i data-lucide="alert-triangle" style="width:18px; height:18px; display:inline-block; vertical-align:text-bottom; margin-right:6px; color:var(--color-negative);"></i> Problemas Identificados</h3>
+          <div id="problemasLista"></div>
+        </div>
+        <div class="insight-card">
+          <h3><i data-lucide="lightbulb" style="width:18px; height:18px; display:inline-block; vertical-align:text-bottom; margin-right:6px; color:var(--color-neutral);"></i> Sugestões de Melhoria</h3>
+          <div id="sugestoesLista"></div>
+        </div>
+      </div>
+
+      <!-- Words -->
+      <div class="palavras-section">
+        <h3><i data-lucide="tags" style="width:18px; height:18px; display:inline-block; vertical-align:text-bottom; margin-right:6px;"></i> Palavras Mais Encontradas</h3>
+        <div class="palavras-container" id="palavrasContainer"></div>
+      </div>
+
+      <!-- Feedback details table -->
+      <div class="tabela-section">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+          <h3 style="margin:0;"><i data-lucide="list" style="width:18px; height:18px; display:inline-block; vertical-align:text-bottom; margin-right:6px;"></i> Detalhamento por Feedback</h3>
+          <div class="table-filters" id="tableFilters" style="display:flex; gap:0.5rem;">
+            <button class="filter-btn active" data-filter="todos">Todos</button>
+            <button class="filter-btn" data-filter="positivo">Positivos</button>
+            <button class="filter-btn" data-filter="neutro">Neutros</button>
+            <button class="filter-btn" data-filter="negativo">Negativos</button>
+          </div>
+        </div>
+        <div class="tabela-container">
+          <table class="feedbacks-tabela">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Feedback</th>
+                <th>Sentimento</th>
+              </tr>
+            </thead>
+            <tbody id="feedbacksTabela"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLUID MENU (Floating Actions) -->
+  <div class="fluid-menu-wrapper hidden" id="fluidMenuWrapper">
+    <div class="fluid-menu-container" id="fluidMenuContainer" data-expanded="false">
+      <!-- Items (bottom to top) -->
+      <a href="#" class="fluid-menu-item item-4" aria-label="Nova Análise" id="fmNovaAnalise">
+        <i data-lucide="plus"></i>
+      </a>
+      <a href="#" class="fluid-menu-item item-3" aria-label="Exportar PDF" id="fmImprimir">
+        <i data-lucide="printer"></i>
+      </a>
+      <a href="#" class="fluid-menu-item item-2" aria-label="Exportar CSV" id="fmCsv">
+        <i data-lucide="download"></i>
+      </a>
+      <a href="#" class="fluid-menu-item item-1" aria-label="Histórico de Análises" id="fmHistorico">
+        <i data-lucide="history"></i>
+      </a>
+      
+      <!-- Trigger (Main Button) -->
+      <div class="fluid-menu-trigger" id="fluidMenuTrigger">
+        <i data-lucide="menu" class="icon-menu"></i>
+        <i data-lucide="x" class="icon-close"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- Iniciar Lucide Icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+
+  <!-- App Scripts -->
+  <script src="js/ethereal.js"></script>
+  <script src="js/menu.js"></script>
+  
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

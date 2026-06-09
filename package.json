@@ -1,0 +1,23 @@
+{
+  "name": "feedbackpulse",
+  "version": "1.0.0",
+  "description": "FeedbackPulse — Ferramenta SaaS para análise automatizada de feedbacks de clientes",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js"
+  },
+  "keywords": [
+    "feedback",
+    "análise",
+    "sentimento",
+    "saas",
+    "dashboard"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.0"
+  }
+}
